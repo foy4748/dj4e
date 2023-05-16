@@ -17,4 +17,5 @@ def myview(request):
     ctx = { "view_count": { "from_cookie": from_cookie, "from_session": from_session } }
     res = render(request, "hello/main.html", ctx)
     res.set_cookie("from_cookie", from_cookie)
+    res.set_cookie('dj4e_cookie', 'a35e2f4a', max_age=1000)
     return res

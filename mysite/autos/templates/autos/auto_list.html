@@ -14,7 +14,7 @@
 		<p>Please create atleast one "Make" before creating a new Auto 👉</p>
 		{% else %}
 		<p>
-		<a href={% url 'autos:auto-create' %}>Create an Auto</a>
+		<a href={% url 'autos:auto-create' %}>Add an auto</a>
 		</p>
 		{% endif %}
 		</ul>
@@ -32,7 +32,7 @@
 				<div>
 					<h1 class="h2">Makes || ({{make_list.count}}) </h1>
 				</div>
-					<p> <a href={% url 'autos:make-create' %}>Create a Make</a> </p>
+					<p> <a href={% url 'autos:make-create' %}>Add a make</a> | <a href={% url 'autos:make-read' %}>View makes</a </p>
 				<ul>
 					{% if make_list.count == 0 %}
 					<p>No Make has been created yet.</p>

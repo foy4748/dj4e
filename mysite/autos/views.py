@@ -9,13 +9,17 @@ from .models import Auto, Make
 # Create your views here.
 
 # READ
-class AutoView(ListView):
+class AutoView(LoginRequiredMixin, ListView):
     template_name = "autos/auto_list.html"
     def get(self, request):
         auto_list = Auto.objects.all()
         make_list = Make.objects.all()
         ctx = { "auto_list": auto_list, "make_list": make_list}
         return render(request, self.template_name, ctx)
+
+class MakeView(LoginRequiredMixin, ListView):
+    model = Make
+    template_name = "autos/make_list.html"
 
 # CREATE
 class AutoCreateView(LoginRequiredMixin, CreateView):

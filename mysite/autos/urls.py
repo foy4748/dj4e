@@ -5,6 +5,7 @@ from . import views
 app_name = "autos"
 urlpatterns = [
         path("", views.AutoView.as_view(), name="autos"),
+        path("make-read/", views.MakeView.as_view(), name="make-read"),
         path("auto-create/", views.AutoCreateView.as_view(), name="auto-create"),
         path("make-create/", views.MakeCreateView.as_view(), name="make-create"),
 

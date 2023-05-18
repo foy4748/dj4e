@@ -10,7 +10,7 @@
 </section>
 <form action="" method="post">
   {% csrf_token %}
-  <button type="submit" value="submit">Confirm</button>
+  <button type="submit" value="submit">Yes, delete.</button>
   <button
     type="cancel"
     onclick="window.location='{% url 'autos:autos' %}' ; return false;"

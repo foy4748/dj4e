@@ -1,0 +1,21 @@
+{% extends "base_bootstrap.html" %} {% block content %}
+
+<section>
+  <p>
+    <strong>
+      Are you sure you want to delete {{make.name}} whose id is {{make.id}} ?
+    </strong>
+  </p>
+</section>
+<form action="" method="post">
+  {% csrf_token %}
+  <button type="submit" value="submit">Confirm</button>
+  <button
+    type="cancel"
+    onclick="window.location='{% url 'autos:autos' %}' ; return false;"
+    value="cancel"
+  >
+    Cancel
+  </button>
+</form>
+{% endblock %}

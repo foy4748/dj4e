@@ -1,0 +1,17 @@
+{% extends "base_bootstrap.html" %} 
+
+{% block content %}
+<main>
+	<ul>
+		{% if auto_list.count == 0 %}
+		<p>No Auto has been created yet.</p>
+		{% endif %}
+
+		{% for auto in auto_list %}
+		<li>{{auto.nickname}}</li>
+		{% endfor %}
+	</ul>
+	<p>Number of Autos: {{auto_list.length}}</p>
+	<a href={% url 'autos:autos-create' %}>Create an Auto</a>
+</main>
+{% endblock %}

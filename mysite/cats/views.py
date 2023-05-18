@@ -11,7 +11,7 @@ from .models import Cat, Breed
 # READ
 class CatList(LoginRequiredMixin, ListView):
     model = Cat
-    template_name = "cats/cats_list.html"
+    template_name = "cats/cat_list.html"
 
 # CREATE
 

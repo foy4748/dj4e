@@ -1,17 +1,51 @@
 {% extends "base_bootstrap.html" %} 
 
 {% block content %}
-<main>
-	<ul>
-		{% if auto_list.count == 0 %}
-		<p>No Auto has been created yet.</p>
+<main class="container">
+	<div class="container">
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-1 col-md-6">
+				<div>
+					<h1 class="h2">Autos || ({{auto_list.count}}) </h1>
+				</div>
+		{% if make_list.count == 0 %}
+		<p>Please create atleast one "Make" before creating a new Auto 👉</p>
+		{% else %}
+		<p>
+		<a href={% url 'autos:auto-create' %}>Create an Auto</a>
+		</p>
 		{% endif %}
+		</ul>
+				<ul>
+					{% if auto_list.count == 0 %}
+					<p>No Auto has been created yet.</p>
+					{% else %}
+					{% for auto in auto_list %}
+					<li>{{auto.nickname}} ( <a href={% url "autos:auto-delete" auto.id %}>Delete</a>  || <a href="#">Update</a>)</li>
+					{% endfor %}
+					{% endif %}
+				</ul>
+			</div>
+			<div class="col-1 col-md-6">
+				<div>
+					<h1 class="h2">Makes || ({{make_list.count}}) </h1>
+				</div>
+					<p> <a href={% url 'autos:make-create' %}>Create a Make</a> </p>
+				<ul>
+					{% if make_list.count == 0 %}
+					<p>No Make has been created yet.</p>
+					{% else %}
+					{% for make in make_list %}
+					<li>{{make.name}} ( <a href={% url "autos:make-delete" make.id %}>Delete</a>  || <a href="#">Update</a>)</li>
+					{% endfor %}
+					{% endif %}
+				</ul>
+			</div>
 
-		{% for auto in auto_list %}
-		<li>{{auto.nickname}}</li>
-		{% endfor %}
-	</ul>
-	<p>Number of Autos: {{auto_list.length}}</p>
-	<a href={% url 'autos:autos-create' %}>Create an Auto</a>
+		</div>
+
+	</div>
 </main>
 {% endblock %}

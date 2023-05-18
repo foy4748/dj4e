@@ -23,7 +23,7 @@
 					<p>No Auto has been created yet.</p>
 					{% else %}
 					{% for auto in auto_list %}
-					<li>{{auto.nickname}} ( <a href={% url "autos:auto-delete" auto.id %}>Delete</a>  || <a href="#">Update</a>)</li>
+					<li>{{auto.nickname}} ( <a href={% url "autos:auto-delete" auto.id %}>Delete</a>  || <a href={% url "autos:auto-update" auto.id %}>Update</a>)</li>
 					{% endfor %}
 					{% endif %}
 				</ul>
@@ -38,7 +38,7 @@
 					<p>No Make has been created yet.</p>
 					{% else %}
 					{% for make in make_list %}
-					<li>{{make.name}} ( <a href={% url "autos:make-delete" make.id %}>Delete</a>  || <a href="#">Update</a>)</li>
+					<li>{{make.name}} ( <a href={% url "autos:make-delete" make.id %}>Delete</a>  || <a href={% url "autos:make-update" make.id %}>Update</a>)</li>
 					{% endfor %}
 					{% endif %}
 				</ul>

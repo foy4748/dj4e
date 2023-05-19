@@ -6,16 +6,19 @@
 		{% if cat_list.count == 0 %}
 			<p>There are no cats in the library.</p>
 		{% endif %}
-		{% if bread_count == 0 %}
+		{% if breed_count == 0 %}
 			<p> <strong>Please add a breed before you add a cat.</strong></p>
+			{% else %}
+			<a href={% url "cats:cat_create" %}>Add a cat</a>
 		{% endif %}
 		<ol>
 			{% for cat in cat_list%}
-			<li>{{cat.nickname}} ({{cat.breed}}) <a href={% url "cats:cat_update" %}>Update</a> |<a href={% url "cats:cat_delete" %}>Delete</a>  )</li>
+			<li>{{cat.nickname}} ({{cat.breed}}) ( <a href={% url "cats:cat_update" cat.id %}>Update</a> | <a href={% url "cats:cat_delete" cat.id %}> Delete</a>  )</li>
 			{% endfor %}
 		</ol>
+
 		<section>
-			<p><a href={% url "cats:breed_list" %}> View Breeds ({{bread_count}})</a> | <a href={% url "cats:breed_create" %}>Add a breed</a></p>
+			<p><a href={% url "cats:breed_list" %}> View Breeds ({{breed_count}})</a> | <a href={% url "cats:breed_create" %}>Add a breed</a></p>
 		</section>
 	</div>
 </main>

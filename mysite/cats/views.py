@@ -12,14 +12,14 @@ from .models import Cat, Breed
 class CatList(LoginRequiredMixin, View):
     template_name = "cats/cat_list.html"
     def get(self, request):
-        bread_count = Breed.objects.all().count()
+        breed_count = Breed.objects.all().count()
         cat_list = Cat.objects.all()
-        ctx = { "cat_list": cat_list, "bread_count": bread_count }
+        ctx = { "cat_list": cat_list, "breed_count": breed_count }
         return render(request, self.template_name , ctx)
 
 class BreedList(LoginRequiredMixin, ListView):
     model = Breed
-    template_name = "cats/bread_list.html"
+    template_name = "cats/breed_list.html"
 
 # CREATE
 class CatCreate(LoginRequiredMixin, CreateView):
@@ -41,7 +41,7 @@ class CatUpdate(LoginRequiredMixin, UpdateView):
 class BreedUpdate(LoginRequiredMixin, UpdateView):
     model = Breed
     fields = "__all__"
-    success_url = reverse_lazy("cats:cats")
+    success_url = reverse_lazy("cats:breed_list")
 
 # DELETE
 class CatDelete(LoginRequiredMixin, DeleteView):
@@ -52,4 +52,4 @@ class CatDelete(LoginRequiredMixin, DeleteView):
 class BreedDelete(LoginRequiredMixin, DeleteView):
     model = Breed
     fields = "__all__"
-    success_url = reverse_lazy("cats:cats")
+    success_url = reverse_lazy("cats:breed_list")

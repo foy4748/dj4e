@@ -1,0 +1,20 @@
+{% extends "base_bootstrap.html" %} {% block content %}
+
+<form action="" method="post">
+  {% csrf_token %}
+  <table>
+    {{form.as_table}}
+  </table>
+  <p>Enter an item</p>
+
+  <button type="submit">Save</button>
+  <button
+    type="cancel"
+    onclick="window.location='{% url 'cats:cats' %}' ; return false;"
+    value="cancel"
+  >
+    Cancel
+  </button>
+</form>
+
+{% endblock %}

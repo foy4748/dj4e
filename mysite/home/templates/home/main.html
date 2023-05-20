@@ -1,19 +1,4 @@
-<main>
-  <section>
-    <h1>List of Apps</h1>
-    <ul>
-      <li>
-        <p><a href='{% url "polls:index" %}'>Polls</a></p>
-      </li>
-      <li>
-        <p><a href='{% url "hello:hello" %}'>Test the session</a></p>
-      </li>
-      <li>
-        <p><a href='{% url "autos:autos" %}'>Autos CRUD</a></p>
-      </li>
-      <li>
-        <p><a href='{% url "cats:cats" %}'>Cats CRUD</a></p>
-      </li>
-    </ul>
-  </section>
-</main>
+{% extends "base_bootstrap.html" %} {% block content %}
+<h1>Welcome to {{ settings.APP_NAME }}</h1>
+<p>Hello world.</p>
+{% endblock content %}

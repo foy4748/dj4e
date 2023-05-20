@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # Extensions - installed with pip3 / requirements.txt
     'django_extensions', 
     'crispy_forms',  
+    'crispy_bootstrap5',
     'rest_framework', 
     'social_django',  
     'taggit',
@@ -51,7 +52,7 @@ INSTALLED_APPS = [
 ]
 
 # When we get to crispy forms :)
-CRISPY_TEMPLATE_PACK = 'bootstrap3'  # Add
+CRISPY_TEMPLATE_PACK = 'bootstrap5'  # Add
 
 # When we get to tagging
 TAGGIT_CASE_INSENSITIVE = True

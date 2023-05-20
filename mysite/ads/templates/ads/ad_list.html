@@ -6,10 +6,10 @@
 <ul>
   {% for ad in ad_list %}
     <li>
-        <a href="{% url 'ads:ads'  ad.id %}">{{ ad.title }}</a>
+        <a href="{% url 'ads:ad_detail' ad.id %}">{{ ad.title }}</a>
         {% if ad.owner == user %}
-        (<a href="{% url 'ads:ads' ad.id %}">Edit</a> |
-        <a href="{% url 'ads:ads' ad.id %}">Delete</a>)
+        (<a href="{% url 'ads:ad_update' ad.id %}">Edit</a> |
+        <a href="{% url 'ads:ad_delete' ad.id %}">Delete</a>)
         {% endif %}
     </li>
   {% endfor %}
@@ -19,7 +19,7 @@
 {% endif %}
 </p>
 <p>
-<a href="{% url 'ads:ads' %}">Add an Article</a> |
+<a href="{% url 'ads:ad_create' %}">Add an Ad</a> |
 {% if user.is_authenticated %}
 <a href="{% url 'logout' %}?next={% url 'ads:ads' %}">Logout</a>
 {% else %}

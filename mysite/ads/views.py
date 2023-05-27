@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponse
 
-from .models import Ad, Comment
+from .models import Ad, Comment, Fav
 from .forms import CreateForm, CommentForm
 # Create your views here.
 
@@ -95,7 +95,6 @@ class CommentCreateView(LoginRequiredMixin, View):
 
     def post(self,request, pk):
         ad = get_object_or_404(Ad, id=pk)
-        print(request.POST['comment'])
         comment = Comment(text=request.POST['comment'], owner=request.user, ad=ad)
         comment.save()
         return redirect(reverse('ads:ad_detail', args=[pk]))
@@ -105,7 +104,28 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
     model = Comment
     success_url = reverse_lazy("ads:ads")
 
+# Favorite Related
+class FavoritesListView(LoginRequiredMixin, ListView):
+    model = Fav
+    template_name = "ads/fav_list.html"
 
+    def get_queryset(self):
+        return Fav.objects.filter(user=self.request.user)
+
+class AddFavoriteView(LoginRequiredMixin, View):
+
+    def get(self, request, pk):
+        ad = get_object_or_404(Ad, id=pk)
+        fav = Fav(ad = ad, user = request.user)
+        fav.save()
+        return redirect(reverse('ads:ad_detail', args=[pk]))
+
+class DeleteFavoriteView(LoginRequiredMixin, DeleteView):
+    model = Fav
+    success_url = reverse_lazy("ads:ads")
+
+
+# For Streaming Picture
 def stream_file(request, pk):
     pic = get_object_or_404(Ad, id=pk)
     print(pic)

@@ -1,0 +1,21 @@
+{% extends "base_menu.html" %}
+{% block content %}
+<h1>Favorites</h1>
+<p>
+{% if fav_list %}
+<ul>
+  {% for fav in fav_list %}
+    <li>
+		{{fav.ad.title}}
+        {% if fav.user == user %}
+        (<a href="{% url 'ads:ad_unfavorite' fav.id %}"><i class="fa fa-trash"></i></a>)
+        {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+{% else %}
+  <p>There are no fav. in the database.</p>
+{% endif %}
+</p>
+{% endblock %}
+

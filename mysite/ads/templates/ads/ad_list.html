@@ -13,7 +13,8 @@
 
         {% if user.is_authenticated %}
         <!-- Two hrefs with two stacked icons each - one showing and one hidden -->
-		<a href={% url 'ads:ads' %} onclick="favPost('{% url 'ads:ad_unfavorite' ad.id %}', {{ ad.id }} )"
+        <a href="#" onclick=
+            "favPost('{% url 'ads:ad_unfavorite' ad.id %}', {{ ad.id }} );return false;"
             {% if ad.id not in favorites %} style="display: none;" {% endif %}
             id="favorite_star_{{ad.id}}">
         <span class="fa-stack" style="vertical-align: middle;">
@@ -22,9 +23,10 @@
         </span>
         </a>
         <!-- the second href -->
-		<a href={% url 'ads:ad_favorite' ad.id %} 
-		   {% if ad.id in favorites %} style="display: none;" {% endif %}
-            id="unfavorite_star_{{thing.id}}">
+        <a href="#" onclick=
+             "favPost('{% url 'ads:ad_favorite' ad.id %}', {{ ad.id }} );return false;"
+            {% if ad.id in favorites %} style="display: none;" {% endif %}
+            id="unfavorite_star_{{ad.id}}">
         <span class="fa-stack" style="vertical-align: middle;">
         <i class="fa fa-star fa-stack-1x" style="display: none; color: orange;"></i>
         <i class="fa fa-star-o fa-stack-1x"></i>
@@ -65,7 +67,7 @@
 		return cookieValue;
 	}
 
-function favPost(url, thing_id) {
+function favPost(url, ad_id) {
     console.log('Requesting JSON');
 	const headers = {
 		"X-CSRFToken": getCookie("csrftoken"),
@@ -79,8 +81,8 @@ function favPost(url, thing_id) {
 		body: "{}"
 	}).then(  (rowz) => {
 		console.log(url, 'finished');
-		$("#unfavorite_star_"+thing_id).toggle();
-		$("#favorite_star_"+thing_id).toggle();
+		$("#unfavorite_star_"+ad_id).toggle();
+		$("#favorite_star_"+ad_id).toggle();
 	}).catch((error) => {
 		console.error(error);
 		//alert('Failed Operation');

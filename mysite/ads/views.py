@@ -127,7 +127,7 @@ class FavoritesListView(LoginRequiredMixin, ListView):
 
 class AddFavoriteView(LoginRequiredMixin, View):
 
-    def get(self, request, pk):
+    def post(self, request, pk):
         ad = get_object_or_404(Ad, id=pk)
         fav = Fav(ad = ad, user = request.user)
         try:
@@ -135,7 +135,8 @@ class AddFavoriteView(LoginRequiredMixin, View):
         except:
             pass
 
-        return redirect(reverse('ads:ads'))
+        #return redirect(reverse('ads:ads'))
+        return HttpResponse()
 
 class DeleteFavoriteView(LoginRequiredMixin, View):
     def post(self, request, pk):
@@ -144,7 +145,8 @@ class DeleteFavoriteView(LoginRequiredMixin, View):
             fav.delete()
         except:
             pass
-        return redirect(reverse('ads:ads'))
+        #return redirect(reverse('ads:ads'))
+        return HttpResponse()
 
 
 

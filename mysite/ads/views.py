@@ -21,8 +21,8 @@ class AdListView(ListView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data( **kwargs)
         try:
-            favourites = Fav.objects.filter(user=self.request.user)
-            ctx['favourites'] = [fav.ad.id for fav in favourites] 
+            favorites = Fav.objects.filter(user=self.request.user)
+            ctx['favorites'] = [fav.ad.id for fav in favorites] 
         except:
             pass
         return ctx

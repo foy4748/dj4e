@@ -11,19 +11,26 @@
         (<a href="{% url 'ads:ad_update' ad.id %}">Edit</a> |
         <a href="{% url 'ads:ad_delete' ad.id %}">Delete</a>)
 
-		{% if ad.id in favourites %}
-		<strong >
-			<a href={% url 'ads:ads' %} onclick="post_delete_request('{% url 'ads:ad_unfavorite' ad.id %}',{{ad.id}})">
-				<i class="fa fa-star" style="color:gold"></i>
-			</a>
-		</strong> 
-		{% else %}
-		<strong>
-			<a href={% url 'ads:ad_favorite' ad.id %}>
-			<i class="fa fa-star" style="color:gray"></i>
-			</a>
-		</strong>
-		{% endif %}
+        {% if user.is_authenticated %}
+        <!-- Two hrefs with two stacked icons each - one showing and one hidden -->
+		<a href={% url 'ads:ads' %} onclick="favPost('{% url 'ads:ad_unfavorite' ad.id %}', {{ ad.id }} )"
+            {% if ad.id not in favorites %} style="display: none;" {% endif %}
+            id="favorite_star_{{ad.id}}">
+        <span class="fa-stack" style="vertical-align: middle;">
+        <i class="fa fa-star fa-stack-1x" style="color: orange;"></i>
+        <i class="fa fa-star-o fa-stack-1x"></i>
+        </span>
+        </a>
+        <!-- the second href -->
+		<a href={% url 'ads:ad_favorite' ad.id %} 
+		   {% if ad.id in favorites %} style="display: none;" {% endif %}
+            id="unfavorite_star_{{thing.id}}">
+        <span class="fa-stack" style="vertical-align: middle;">
+        <i class="fa fa-star fa-stack-1x" style="display: none; color: orange;"></i>
+        <i class="fa fa-star-o fa-stack-1x"></i>
+        </span>
+        </a>
+        {% endif %}
         {% endif %}
     </li>
   {% endfor %}
@@ -41,40 +48,44 @@
 {% endif %}
 </p>
 
-<script charset="utf-8">
-
+<script>
 	function getCookie(name) {
-	var cookieValue = null;
-	if (document.cookie && document.cookie !== '') {
-		var cookies = document.cookie.split(';');
-		for (var i = 0; i < cookies.length; i++) {
-			var cookie = jQuery.trim(cookies[i]);
-			// Does this cookie string begin with the name we want?
-			if (cookie.substring(0, name.length + 1) === (name + '=')) {
-				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-				break;
+		var cookieValue = null;
+		if (document.cookie && document.cookie !== '') {
+			var cookies = document.cookie.split(';');
+			for (var i = 0; i < cookies.length; i++) {
+				var cookie = jQuery.trim(cookies[i]);
+				// Does this cookie string begin with the name we want?
+				if (cookie.substring(0, name.length + 1) === (name + '=')) {
+					cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+					break;
+				}
 			}
 		}
-	}
-	return cookieValue;
+		return cookieValue;
 	}
 
-	function post_delete_request(url, _id){
-		console.log(_id); 
-		fetch(url, {
-			method: "POST",
-			headers: {
-					  "X-CSRFToken": getCookie("csrftoken"),
-					  "Accept": "application/json",
-					  'Content-Type': 'application/json'
-					},
-			body: JSON.stringify({})
-		}, function(row){
-		alert('Success');
-		} ).catch((error) => {
-		console.error(error)
-		})
+function favPost(url, thing_id) {
+    console.log('Requesting JSON');
+	const headers = {
+		"X-CSRFToken": getCookie("csrftoken"),
+		"Accept": "application/json",
+		'Content-Type': 'application/json'
 	}
+
+	fetch(url, { 
+		method: "POST",
+		headers,
+		body: "{}"
+	}).then(  (rowz) => {
+		console.log(url, 'finished');
+		$("#unfavorite_star_"+thing_id).toggle();
+		$("#favorite_star_"+thing_id).toggle();
+	}).catch((error) => {
+		console.error(error);
+		//alert('Failed Operation');
+	})
+}
 </script>
 {% endblock %}
 

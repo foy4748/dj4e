@@ -125,6 +125,13 @@ class FavoritesListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Fav.objects.filter(user=self.request.user)
 
+# csrf exemption in class based views
+# https://stackoverflow.com/questions/16458166/how-to-disable-djangos-csrf-validation
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.db.utils import IntegrityError
+
+@method_decorator(csrf_exempt, name='dispatch')
 class AddFavoriteView(LoginRequiredMixin, View):
 
     def post(self, request, pk):
@@ -138,6 +145,7 @@ class AddFavoriteView(LoginRequiredMixin, View):
         #return redirect(reverse('ads:ads'))
         return HttpResponse()
 
+@method_decorator(csrf_exempt, name='dispatch')
 class DeleteFavoriteView(LoginRequiredMixin, View):
     def post(self, request, pk):
         fav = Fav.objects.filter(ad=pk, user=request.user)

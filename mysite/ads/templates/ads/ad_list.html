@@ -10,6 +10,20 @@
         {% if ad.owner == user %}
         (<a href="{% url 'ads:ad_update' ad.id %}">Edit</a> |
         <a href="{% url 'ads:ad_delete' ad.id %}">Delete</a>)
+
+		{% if ad.id in favourites %}
+		<strong >
+			<a href={% url 'ads:ads' %} onclick="post_delete_request('{% url 'ads:ad_unfavorite' ad.id %}',{{ad.id}})">
+				<i class="fa fa-star" style="color:gold"></i>
+			</a>
+		</strong> 
+		{% else %}
+		<strong>
+			<a href={% url 'ads:ad_favorite' ad.id %}>
+			<i class="fa fa-star" style="color:gray"></i>
+			</a>
+		</strong>
+		{% endif %}
         {% endif %}
     </li>
   {% endfor %}
@@ -26,4 +40,41 @@
 <a href="{% url 'login' %}?next={% url 'ads:ads' %}">Login</a>
 {% endif %}
 </p>
+
+<script charset="utf-8">
+
+	function getCookie(name) {
+	var cookieValue = null;
+	if (document.cookie && document.cookie !== '') {
+		var cookies = document.cookie.split(';');
+		for (var i = 0; i < cookies.length; i++) {
+			var cookie = jQuery.trim(cookies[i]);
+			// Does this cookie string begin with the name we want?
+			if (cookie.substring(0, name.length + 1) === (name + '=')) {
+				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+				break;
+			}
+		}
+	}
+	return cookieValue;
+	}
+
+	function post_delete_request(url, _id){
+		console.log(_id); 
+		fetch(url, {
+			method: "POST",
+			headers: {
+					  "X-CSRFToken": getCookie("csrftoken"),
+					  "Accept": "application/json",
+					  'Content-Type': 'application/json'
+					},
+			body: JSON.stringify({})
+		}, function(row){
+		alert('Success');
+		} ).catch((error) => {
+		console.error(error)
+		})
+	}
+</script>
 {% endblock %}
+

@@ -11,8 +11,18 @@ from .models import Ad, Comment, Fav
 from .forms import CreateForm, CommentForm
 # Create your views here.
 
+# Before favourite Ad stuff
+# class AdListView(ListView):
+#     model = Ad
+
 class AdListView(ListView):
     model = Ad
+
+    def get_context_data(self, **kwargs):
+        favourites = Fav.objects.filter(user=self.request.user)
+        ctx = super().get_context_data( **kwargs)
+        ctx['favourites'] = [fav.ad.id for fav in favourites] 
+        return ctx
 
 # Manually Handling 
 #   AdCreateView
@@ -117,18 +127,27 @@ class AddFavoriteView(LoginRequiredMixin, View):
     def get(self, request, pk):
         ad = get_object_or_404(Ad, id=pk)
         fav = Fav(ad = ad, user = request.user)
-        fav.save()
-        return redirect(reverse('ads:ad_detail', args=[pk]))
+        try:
+            fav.save()
+        except:
+            pass
 
-class DeleteFavoriteView(LoginRequiredMixin, DeleteView):
-    model = Fav
-    success_url = reverse_lazy("ads:ads")
+        return redirect(reverse('ads:ads'))
+
+class DeleteFavoriteView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        fav = Fav.objects.filter(ad=pk, user=request.user)
+        try:
+            fav.delete()
+        except:
+            pass
+        return redirect(reverse('ads:ads'))
+
 
 
 # For Streaming Picture
 def stream_file(request, pk):
     pic = get_object_or_404(Ad, id=pk)
-    print(pic)
     response = HttpResponse()
     response['Content-Type'] = pic.content_type
     response['Content-Length'] = len(pic.picture)

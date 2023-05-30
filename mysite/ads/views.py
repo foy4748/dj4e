@@ -15,13 +15,16 @@ from .forms import CreateForm, CommentForm
 # class AdListView(ListView):
 #     model = Ad
 
-class AdListView(LoginRequiredMixin, ListView):
+class AdListView(ListView):
     model = Ad
 
     def get_context_data(self, **kwargs):
-        favourites = Fav.objects.filter(user=self.request.user)
         ctx = super().get_context_data( **kwargs)
-        ctx['favourites'] = [fav.ad.id for fav in favourites] 
+        try:
+            favourites = Fav.objects.filter(user=self.request.user)
+            ctx['favourites'] = [fav.ad.id for fav in favourites] 
+        except:
+            pass
         return ctx
 
 # Manually Handling 

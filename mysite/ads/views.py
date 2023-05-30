@@ -15,7 +15,7 @@ from .forms import CreateForm, CommentForm
 # class AdListView(ListView):
 #     model = Ad
 
-class AdListView(ListView):
+class AdListView(LoginRequiredMixin, ListView):
     model = Ad
 
     def get_context_data(self, **kwargs):

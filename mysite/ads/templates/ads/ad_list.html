@@ -10,6 +10,7 @@
         {% if ad.owner == user %}
         (<a href="{% url 'ads:ad_update' ad.id %}">Edit</a> |
         <a href="{% url 'ads:ad_delete' ad.id %}">Delete</a>)
+        {% endif %}
 
         {% if user.is_authenticated %}
         <!-- Two hrefs with two stacked icons each - one showing and one hidden -->
@@ -32,7 +33,6 @@
         <i class="fa fa-star-o fa-stack-1x"></i>
         </span>
         </a>
-        {% endif %}
         {% endif %}
     </li>
   {% endfor %}

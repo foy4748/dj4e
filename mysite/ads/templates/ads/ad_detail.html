@@ -36,6 +36,11 @@
 
 				<h1>{{ ad.title }}</h1>
 			<p> Price: ${{ ad.price }} </p>
+			<p>Tags: 
+			{% for tag in ad.tags.all  %}
+			{{tag}}
+			{% endfor %}
+			</p>
 			<p>
 			{{ ad.text }}
 			</p>

@@ -181,6 +181,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 # https://coderwall.com/p/uzhyca/quickly-setup-sql-query-logging-django
 # https://stackoverflow.com/questions/12027545/determine-if-django-is-running-under-the-development-server
 
+# Taggit Settings
+TAGGIT_CASE_INSENSITIVE = True
+
 '''  # Leave off for now
 import sys
 if (len(sys.argv) >= 2 and sys.argv[1] == 'runserver'):

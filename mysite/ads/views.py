@@ -24,8 +24,9 @@ class AdListView(ListView):
         strval = self.request.GET.get('search', False)
         ctx = dict()
         if strval:
-            query = Q(title__contains=strval)
-            query.add(Q(text__contains=strval), Q.OR)
+            query = Q(title__icontains=strval)
+            query.add(Q(text__icontains=strval), Q.OR)
+            query.add(Q(tags__name__icontains=strval), Q.OR)
             ads = Ad.objects.filter(query).select_related().order_by('updated_at')
             ctx['ad_list'] = ads
             ctx['search'] = strval
@@ -50,7 +51,7 @@ class AdListView(ListView):
 
 # class AdCreateView(OwnerCreateView):
 #     model = Ad
-#     fields = ['title', 'price', 'text']
+#     fields = ['title', 'price', 'text', 'tags']
 
 # class AdUpdateView(OwnerUpdateView):
 #     model = Ad
@@ -76,6 +77,7 @@ class AdCreateView(LoginRequiredMixin, View):
         pic = form.save(commit=False)
         pic.owner = self.request.user
         pic.save()
+        form.save_m2m()
         return redirect(self.success_url)
 
 class AdUpdateView(LoginRequiredMixin, View):

@@ -9,6 +9,8 @@ from django.http import HttpResponse
 
 from .models import Ad, Comment, Fav
 from .forms import CreateForm, CommentForm
+from django.db.models import Q
+
 # Create your views here.
 
 # Before favourite Ad stuff
@@ -19,7 +21,18 @@ class AdListView(ListView):
     model = Ad
 
     def get_context_data(self, **kwargs):
-        ctx = super().get_context_data( **kwargs)
+        strval = self.request.GET.get('search', False)
+        ctx = dict()
+        if strval:
+            query = Q(title__contains=strval)
+            query.add(Q(text__contains=strval), Q.OR)
+            ads = Ad.objects.filter(query).select_related().order_by('updated_at')
+            ctx['ad_list'] = ads
+            ctx['search'] = strval
+        else:
+            ctx = super().get_context_data( **kwargs)
+
+
         try:
             favorites = Fav.objects.filter(user=self.request.user)
             ctx['favorites'] = [fav.ad.id for fav in favorites] 

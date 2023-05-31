@@ -27,7 +27,7 @@ class AdListView(ListView):
             query = Q(title__icontains=strval)
             query.add(Q(text__icontains=strval), Q.OR)
             query.add(Q(tags__name__icontains=strval), Q.OR)
-            ads = Ad.objects.filter(query).select_related().order_by('updated_at')
+            ads = Ad.objects.filter(query).select_related().order_by('updated_at').distinct()
             ctx['ad_list'] = ads
             ctx['search'] = strval
         else:

@@ -1,11 +1,12 @@
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.views import View
 from .forms import MyForm
 
 # Create your views here.
 
-class SoloView(View):
+class SoloView(LoginRequiredMixin,View):
     def get(self, request):
         form = MyForm()
         ctx = { "form": form }
